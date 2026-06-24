@@ -1,30 +1,39 @@
 [app]
+
 title = Fragment Testnet Client
 package.name = fragmenttestnet
 package.domain = org.testnet
+
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
+
 version = 1.0.0
 
-# Полный набор зависимостей: Python3, фреймворк Kivy и мост к Java Pyjnius
-requirements = python3,kivy,pyjnius
+# Фиксированные версии для совместимости (Cython обязателен)
+requirements = python3==3.10.0,cython==0.29.36,kivy==2.3.0,pyjnius
 
 orientation = portrait
-osx.kivy_version = 2.1.0
 fullscreen = 1
 
-# Запрашиваем у Android полный доступ к Интернету и состоянию сети
+# Разрешения для сети
 android.permissions = INTERNET,ACCESS_NETWORK_STATE
 
-# Настройки целевой архитектуры и SDK (Android 13)
-android.api = 33
+# API 30 стабильнее в облачных сборках, чем 33
+android.api = 30
 android.minapi = 21
 android.ndk_api = 21
 android.private_storage = True
 
-# Разрешаем использование cleartext трафика (пригодится при локальных тестах HTTP/WebSocket)
+# Разрешаем HTTP-трафик (для локальных тестов)
 android.manifest.application_arguments = android:usesCleartextTraffic="true"
 
+# Решает проблемы с памятью при сборке
+android.gradle_dependencies = 'com.android.support:multidex:1.0.3'
+
+# Фиксированная версия NDK (рекомендуется)
+android.ndk = 23c
+
 [buildozer]
+
 log_level = 2
 warn_on_root = 1
